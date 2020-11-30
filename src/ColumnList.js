@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import {CSSTransitionGroup} from 'react-transition-group';
 import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';
-import MobileTearSheet from './MobileTearSheet';
+import DisplayComponent from './DisplayComponent';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import './ColumnList.css';
 
-/**
- * This object is used for type checking the props of the component.
- */
+
 const propTypes = {
 	title: PropTypes.string.isRequired,
 	items: PropTypes.array,
@@ -18,44 +16,16 @@ const propTypes = {
 	removeMode: PropTypes.bool,
 };
 
-/**
- * This object sets default values to the optional props.
- */
+
 const defaultProps = {
 	items: [],
 	removeMode: [],
 };
 
-/**
- * This callback type is called `removeTask` and is displayed as a global symbol.
- *
- * @callback removeTask
- * @param {Object} event - The event generate by remove click.
- */
-
-/**
- * This callback type is called `updateTask` and is displayed as a global symbol.
- *
- * @callback updateTask
- * @param {Object} target - The event generate by onChange.
- * @param {Object} item - The item to be updated.
- */
-
-/**
- * @description Represents the column list element.
- * @param {Object} props - The props that were defined by the caller of this component.
- * @param {string} props.title - The title of this column list.
- * @param {Object[]} [props.items=[]] - The array of tasks/items of the list.
- * @param {removeTask} props.removeTask - Callback executed when user click to remove the task.
- * @param {updateTask} props.updateTask - Callback executed when when user the done checkbox.
- * @param {boolean} [props.removeMode=false] - Indicates whether the app is in remove mode.
- * @returns {XML} Return the stateless component markup
- * @constructor
- */
 const ColumnList = (props) => {
 	return (
 		<div className="column-list">
-			<MobileTearSheet style={{pading: 10}}>
+		 {props && props.items.length > 0 ? <DisplayComponent style={{pading: 10}}>
 				<List>
 					<CSSTransitionGroup
 						transitionName="task-animation"
@@ -78,15 +48,9 @@ const ColumnList = (props) => {
 						))}
 					</CSSTransitionGroup>
 				</List>
-			</MobileTearSheet>
+			</DisplayComponent> : <div> Your To Do List Is Empty</div>}
 		</div>
 	)
 };
-
-// Type checking the props of the component
-ColumnList.propTypes = propTypes;
-
-// Assign default values to the optional props
-ColumnList.defaultProps = defaultProps;
 
 export default ColumnList;

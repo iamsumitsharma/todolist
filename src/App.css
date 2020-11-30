@@ -45,7 +45,7 @@
   padding: 10px;
 }
 
-/* task transition animations */
+
 
 .task-animation-enter {
   opacity: 0.01;
@@ -69,7 +69,7 @@
   transition: 300ms;
 }
 
-/* remove mode transition animations */
+
 
 .remove-mode-animation-enter {
   opacity: 0.01;

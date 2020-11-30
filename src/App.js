@@ -27,17 +27,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 
-		/**
-		 * @typedef {Object} ComponentState
-		 * @property {Object[]} items - All list items of the app.
-		 * @property {number} taskIdCounter - The index of the last task added.
-		 * @property {boolean} submitDisabled - Indicates whether submit is disabled.
-		 * @property {number} slideIndex - The index of the tab component.
-		 * @property {boolean} dialogOpen - Visibility of the clear tasks dialog.
-		 * @property {boolean} removeMode - Indicates if the remove mode is active.
-		 */
 
-		/** @type {ComponentState} */
 		this.state = {
 			items: [],
 			taskIdCounter: 0,
@@ -48,14 +38,11 @@ class App extends Component {
 		};
 	}
 
-	/**
-	 * Lifecycle event handler called just after the App loads into the DOM.
-	 * Get any saved items and taskIdCounter from the local storage and setup state with it.
-	 */
+	
 	componentWillMount() {
 		const toDoListItems = window.localStorage.getItem('toDoListItems') || '[]';
 		const taskIdCounter = window.localStorage.getItem('taskIdCounter') || 0;
-		//Get
+		
 		this.setState(
 			{
 				items: JSON.parse(toDoListItems),
@@ -64,9 +51,7 @@ class App extends Component {
 		);
 	}
 
-	/**
-	 * @description Add task to the To Do list.
-	 */
+
 	addTask = () => {
 		const input = this.taskInput.input || {};
 		const { value = '' } = input;
@@ -95,10 +80,7 @@ class App extends Component {
 		}.bind(this));
 	};
 
-	/**
-	 * @description Update task toggling between To Do/Done status.
-	 * @param {Object} task - The task to be updated
-	 */
+
 	handleUpdateTask = (task) => {
 		this.setState(previousState => {
 			const { items } = previousState;
@@ -113,10 +95,6 @@ class App extends Component {
 		}.bind(this));
 	};
 
-	/**
-	 * @description Remove task.
-	 * @param {Object} task - The task to be removed.
-	 */
 	handleRemoveTask = (task) => {
 		this.setState(previousState => {
 			const { items } = previousState;
@@ -129,12 +107,7 @@ class App extends Component {
 		}.bind(this));
 	};
 
-	/**
-	 * @description Handle the Account Key TextField input change. It enable the submit button if field is not empty or
-	 * disable it otherwise.
-	 * @param {Object} event - On click event object
-	 * @param {value} value - The task description
-	 */
+
 	handleTextFieldChange = (event, value) => {
 		if((value.length > 0) && this.state.submitDisabled){
 			this.setState({submitDisabled: false});
@@ -144,89 +117,62 @@ class App extends Component {
 		}
 	};
 
-	/**
-	 * @description Save items to local storage.
-	 * @param {Object[]} items - Array of items/tasks to be saved.
-	 */
+	
 	updateLocalStorageItems = (items) => {
 		window.localStorage.setItem('toDoListItems', JSON.stringify(items));
 	};
 
-	/**
-	 * @description Update current taskId into local storage.
-	 * @param {number} taskCounter - Id of the task to be saved at local storage.
-	 */
 	updateTaskCounter = (taskCounter) => {
 		window.localStorage.setItem('taskIdCounter', taskCounter);
 	};
 
-	/**
-	 * @description Handle the tab change.
-	 * @param {number} value - The index of the Tab.
-	 */
+
 	handleChange = (value) => {
 		this.setState({
 			slideIndex: value,
-		}, function stateUpdateComplete() {
-			// Fix scroll in swipe transitions
-			window.scrollTo(0, 0);
 		});
 	};
 
 
-	/**
-	 * @description Enable the remove task mode.
-	 */
+
 	enableRemoveMode = () => {
 		if (!this.state.removeMode) {
 			this.setState({removeMode: true});
 		}
 	};
 
-	/**
-	 * @description Disable the remove task mode.
-	 */
+
 	disableRemoveMode = () => {
 		if (this.state.removeMode) {
 			this.setState({removeMode: false});
 		}
 	};
 
-	/**
-	 * @description Remove all tasks from the App.
-	 */
+
 	clearTasks = () => {
 		this.handleDialogClose();
 		this.setState({removeMode: false, items: []}, function stateUpdateComplete() {
-			// Update local storage
+	
 			this.updateLocalStorageItems(this.state.items);
 		});
 	};
 
-	/**
-	 * @description Open the clear tasks dialog.
-	 */
+
 	handleDialogOpen = () => {
 		this.setState({dialogOpen: true});
 	};
 
-	/**
-	 * @description Close the clear task dialog.
-	 */
+
 	handleDialogClose = () => {
 		this.setState({dialogOpen: false});
 	};
 
-	/**
-	 * @description Handle the enter key pressed under the add task input.
-	 * @param {Object} e - Key press event
-	 */
+
 	keyPress = (e) => {
-		// If Enter key
+
 		if(e.keyCode === 13){
-			// Call method to add the task if not empty
+		
 			this.addTask();
-			// put the login here
 		}
 	};
 
@@ -235,12 +181,11 @@ class App extends Component {
 		const columns = [
 			{ title: 'To Do', items: items.filter( item => item.status === 'To Do'), icon: <TodoIcon />},
 			{ title: 'Done', items: items.filter( item => item.status === 'Done'), icon: <CheckIcon />},
-			{ title: 'All', items, icon: <ListIcon />},
 		];
 		return (
 			<MuiThemeProvider>
 				<div className="App">
-					{/* Clear Tasks Confirmation Dialog */}
+					
 					<ConfirmDialog
 						title="Clear All Tasks"
 						message={'Are you sure you want to remove all tasks from the App?'}
@@ -249,7 +194,7 @@ class App extends Component {
 						open={this.state.dialogOpen}
 					/>
 					<AppBar
-						title={<span style={{color: 'white'}}>To-Do List</span>}
+						title={<span style={{color: 'white'}}>To-Do List For Torre Capital</span>}
 						showMenuIconButton={false}
 						style={{backgroundColor: 'rgb(0, 151, 167)', position: 'fixed', zIndex: 9999,}}
 					/>
